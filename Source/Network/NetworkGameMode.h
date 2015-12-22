@@ -10,6 +10,9 @@ class ANetworkGameMode : public AGameMode
 
 public:
 	ANetworkGameMode();
+
+	// Function to add score.
+	void AddScore(int32 Amout);
 };
 
 

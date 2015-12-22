@@ -3,6 +3,7 @@
 #include "Network.h"
 #include "NetworkGameMode.h"
 #include "NetworkCharacter.h"
+#include "MyGameState.h"
 
 ANetworkGameMode::ANetworkGameMode()
 {
@@ -12,4 +13,10 @@ ANetworkGameMode::ANetworkGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+}
+
+void ANetworkGameMode::AddScore(int32 Amount)
+{
+	GetGameState<AMyGameState>()->Score += Amount;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(GetGameState<AMyGameState>()->Score));
 }

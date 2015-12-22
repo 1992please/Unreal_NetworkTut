@@ -12,6 +12,8 @@ AFlag::AFlag()
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(60.0f);
 	RootComponent = CollisionComp;
+	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &AFlag::OnOverlapBegin);
+	bReplicates = true;
 }
 
 // Called when the game starts or when spawned
@@ -32,6 +34,20 @@ void AFlag::OnOverlapBegin(AActor* OtherActor, UPrimitiveComponent* OtherComp, i
 {
 	if (Role == ROLE_Authority)
 	{
-
+		UpdateScore(5);
+		Destroy();
 	}
+}
+
+void AFlag::UpdateScore_Implementation(int32 Amount)
+{
+	// Get game mode and cast it to our game mode.
+	ANetworkGameMode* GameMode = Cast<ANetworkGameMode>(GetWorld()->GetAuthGameMode());
+	//Add Score
+	GameMode->AddScore(Amount);
+}
+
+bool AFlag::UpdateScore_Validate(int32 Amout)
+{
+	return true;
 }

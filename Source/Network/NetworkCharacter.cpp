@@ -116,7 +116,6 @@ void ANetworkCharacter::MoveRight(float Value)
 
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
-		MyServerFunc();
 
 		// find out which way is right
 		const FRotator Rotation = Controller->GetControlRotation();
@@ -127,28 +126,4 @@ void ANetworkCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
-}
-
-void ANetworkCharacter::MyServerFunc_Implementation()
-{
-	switch (Role)
-	{
-	case ENetRole::ROLE_Authority:
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Called on client and excuted a"));
-		break;
-	case ENetRole::ROLE_None:
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Called on client and excuted b"));
-		break;
-	case ENetRole::ROLE_AutonomousProxy:
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("Called on client and excuted c"));
-		break;
-	default:
-		break;
-	}
-	
-}
-
-bool ANetworkCharacter::MyServerFunc_Validate()
-{
-	return true;
 }
